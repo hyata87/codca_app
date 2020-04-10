@@ -24,10 +24,28 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
+  # provider
+  provider: ^4.0.4
+  # built_value
+  built_collection: '>=2.0.0 <5.0.0'
+  built_value: ^7.0.9
+  # Font Awesome
+  font_awesome_flutter: ^8.5.0
+  # url launcher
+  url_launcher: ^5.4.2
+  # l18n
+  flutter_localizations:
+    sdk: flutter
+  intl:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  # built_value
+  build_runner: ^1.0.0
+  built_value_generator: ^7.0.9
+  # l18n
+  intl_translation:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
