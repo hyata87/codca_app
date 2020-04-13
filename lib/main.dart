@@ -1,3 +1,7 @@
+import 'package:codca/presenter/card/card_edit_photo_screen.dart';
+import 'package:codca/presenter/card/card_edit_screen.dart';
+import 'package:codca/presenter/card/card_screen.dart';
+import 'package:codca/presenter/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -20,7 +24,13 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => HomeScreen(),
+        "/cards/create": (context) => CardEditPhotoScreen(),
+        "/cards/detail": (context) => CardScreen(),
+        "/cards/update": (context) => CardEditScreen()
+      },
     );
   }
 }
