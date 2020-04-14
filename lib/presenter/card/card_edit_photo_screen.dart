@@ -23,8 +23,7 @@ class CardEditPhotoScreen extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () async {
-                    final image = await ImagePicker.pickImage(
-                        source: ImageSource.gallery);
+                    await ImagePicker.pickImage(source: ImageSource.gallery);
                   },
                   child: Stack(
                     children: <Widget>[

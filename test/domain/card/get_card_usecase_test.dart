@@ -10,9 +10,16 @@ void main() {
   group("GetCardUseCase", () {
     CardRepository repository = MockRepository();
 
+    final dummyCard = Card((b) {
+      b.uid = "dummy";
+      b.linkList = [];
+      b.createAt = DateTime(2020, 4, 14);
+    });
+
     test("invoke", () async {
       GetCardUseCase useCase = GetCardUseCase(repository);
-      when(repository.fetch("dummy")).thenAnswer((_) => Future.value(Card()));
+      when(repository.fetch("dummy"))
+          .thenAnswer((_) => Future.value(dummyCard));
 
       await useCase.invoke("dummy");
       verify(repository.fetch("dummy"));
