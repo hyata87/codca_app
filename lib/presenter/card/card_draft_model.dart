@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:codca/domain/card/card_draft.dart';
 import 'package:codca/domain/card/create_card_draft_usecase.dart';
 import 'package:codca/domain/card/get_card_draft_usecase.dart';
@@ -52,13 +53,13 @@ class CardDraftModel extends ChangeNotifier {
   void onChangedLinks(ShareLink link, bool value) async {
     if (value) {
       status = status.copy(
-        draft: status.draft.rebuild((b) =>
-            b.shareLinks = Set.of(status.draft.shareLinks.toList()..add(link))),
+        draft: status.draft.rebuild((b) => b.shareLinks =
+            SetBuilder(status.draft.shareLinks.toList()..add(link))),
       );
     } else {
       status = status.copy(
         draft: status.draft.rebuild((b) => b.shareLinks =
-            Set.of(status.draft.shareLinks.toList()..remove(link))),
+            SetBuilder(status.draft.shareLinks.toList()..remove(link))),
       );
     }
     notifyListeners();
@@ -98,7 +99,7 @@ class CardDraftModelState {
 
   Set<ShareLink> get shareLinks {
     if (draft == null) return Set.of([]);
-    return draft.shareLinks;
+    return draft.shareLinks.toSet();
   }
 
   bool get isValid {

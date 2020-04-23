@@ -1,5 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codca/domain/card/card_draft_repository.dart';
-import 'package:codca/infra/card/stub_card_draft_repository.dart';
+import 'package:codca/infra/card/firestore_card_draft_repository.dart';
 import 'package:codca/presenter/card/card_draft_edit_screen.dart';
 import 'package:codca/presenter/card/card_edit_screen.dart';
 import 'package:codca/presenter/card/card_screen.dart';
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<CardDraftRepository>(
-            create: (context) => StubCardDraftRepository()),
+            create: (context) =>
+                FirestoreCardDraftRepository(Firestore.instance)),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

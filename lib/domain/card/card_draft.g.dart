@@ -21,7 +21,7 @@ class _$CardDraftSerializer implements StructuredSerializer<CardDraft> {
       'shareLinks',
       serializers.serialize(object.shareLinks,
           specifiedType:
-              const FullType(Set, const [const FullType(ShareLink)])),
+              const FullType(BuiltSet, const [const FullType(ShareLink)])),
       'createdAt',
       serializers.serialize(object.createdAt,
           specifiedType: const FullType(DateTime)),
@@ -84,10 +84,10 @@ class _$CardDraftSerializer implements StructuredSerializer<CardDraft> {
               specifiedType: const FullType(String)) as String;
           break;
         case 'shareLinks':
-          result.shareLinks = serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(Set, const [const FullType(ShareLink)]))
-              as Set<ShareLink>;
+          result.shareLinks.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltSet, const [const FullType(ShareLink)]))
+              as BuiltSet<Object>);
           break;
         case 'createdAt':
           result.createdAt = serializers.deserialize(value,
@@ -114,7 +114,7 @@ class _$CardDraft extends CardDraft {
   @override
   final String message;
   @override
-  final Set<ShareLink> shareLinks;
+  final BuiltSet<ShareLink> shareLinks;
   @override
   final DateTime createdAt;
   @override
@@ -210,9 +210,11 @@ class CardDraftBuilder implements Builder<CardDraft, CardDraftBuilder> {
   String get message => _$this._message;
   set message(String message) => _$this._message = message;
 
-  Set<ShareLink> _shareLinks;
-  Set<ShareLink> get shareLinks => _$this._shareLinks;
-  set shareLinks(Set<ShareLink> shareLinks) => _$this._shareLinks = shareLinks;
+  SetBuilder<ShareLink> _shareLinks;
+  SetBuilder<ShareLink> get shareLinks =>
+      _$this._shareLinks ??= new SetBuilder<ShareLink>();
+  set shareLinks(SetBuilder<ShareLink> shareLinks) =>
+      _$this._shareLinks = shareLinks;
 
   DateTime _createdAt;
   DateTime get createdAt => _$this._createdAt;
@@ -230,7 +232,7 @@ class CardDraftBuilder implements Builder<CardDraft, CardDraftBuilder> {
       _image = _$v.image;
       _name = _$v.name;
       _message = _$v.message;
-      _shareLinks = _$v.shareLinks;
+      _shareLinks = _$v.shareLinks?.toBuilder();
       _createdAt = _$v.createdAt;
       _updatedAt = _$v.updatedAt;
       _$v = null;
@@ -253,15 +255,28 @@ class CardDraftBuilder implements Builder<CardDraft, CardDraftBuilder> {
 
   @override
   _$CardDraft build() {
-    final _$result = _$v ??
-        new _$CardDraft._(
-            uid: uid,
-            image: image,
-            name: name,
-            message: message,
-            shareLinks: shareLinks,
-            createdAt: createdAt,
-            updatedAt: updatedAt);
+    _$CardDraft _$result;
+    try {
+      _$result = _$v ??
+          new _$CardDraft._(
+              uid: uid,
+              image: image,
+              name: name,
+              message: message,
+              shareLinks: shareLinks.build(),
+              createdAt: createdAt,
+              updatedAt: updatedAt);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'shareLinks';
+        shareLinks.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'CardDraft', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
