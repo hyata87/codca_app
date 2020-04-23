@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:codca/domain/card/card_draft.dart';
 import 'package:codca/domain/card/card_draft_repository.dart';
 import 'package:codca/domain/card/share_link.dart';
@@ -6,7 +7,7 @@ class StubCardDraftRepository implements CardDraftRepository {
   @override
   Future<CardDraft> create() async {
     return CardDraft((b) {
-      b.shareLinks = Set.of([ShareLink.profile]);
+      b.shareLinks = SetBuilder([ShareLink.profile]);
       b.createdAt = DateTime.now();
       b.updatedAt = DateTime.now();
     });

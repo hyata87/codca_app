@@ -1,5 +1,6 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:codca/domain/card/share_link.dart';
 import 'package:codca/domain/serializers.dart';
 
@@ -18,7 +19,7 @@ abstract class CardDraft implements Built<CardDraft, CardDraftBuilder> {
   @nullable
   String get message;
 
-  Set<ShareLink> get shareLinks;
+  BuiltSet<ShareLink> get shareLinks;
 
   DateTime get createdAt;
 
