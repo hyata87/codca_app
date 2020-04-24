@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Command Test
-      run: cat ./.github/scripts/decrypt_secret.sh
     - name: Decrypt secret files
       run: ./.github/scripts/decrypt_secret.sh
       env:
