@@ -19,6 +19,12 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+    - name: Command Test
+      run: gpg --version
+    - name: Decrypt secret files
+      run: ./.github/scripts/decrypt_secret.sh
+      env:
+        SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
     - uses: actions/setup-java@v1
       with:
         java-version: '12.x'
