@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 gpg --quiet --batch --yes --decrypt --passphrase="$SECRET_PASSPHRASE" \
---output "$HOME/android/app/google-services.json" "$HOME/.github/secrets/google-services.json.gpg"
+--output "./android/app/google-services.json" "./.github/secrets/google-services.json.gpg"
