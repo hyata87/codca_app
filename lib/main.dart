@@ -39,7 +39,13 @@ class MyApp extends StatelessWidget {
           "/": (context) => HomeScreen(),
           "/cards/create": (context) => CardDraftEditScreen(null),
           "/cards/detail": (context) => CardScreen(),
-          "/cards/update": (context) => CardEditScreen()
+          "/cards/update": (context) => CardEditScreen(),
+          "/drafts/create": (context) => CardDraftEditScreen(null),
+          "/drafts/update": (context) {
+            final CardDraftEditScreenArguments arguments =
+                ModalRoute.of(context).settings.arguments;
+            return CardDraftEditScreen(arguments.uid);
+          },
         },
       ),
     );

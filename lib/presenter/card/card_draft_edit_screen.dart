@@ -103,3 +103,9 @@ class CardDraftEditScreen extends StatelessWidget {
     );
   }
 }
+
+class CardDraftEditScreenArguments {
+  final String uid;
+
+  CardDraftEditScreenArguments(this.uid);
+}
