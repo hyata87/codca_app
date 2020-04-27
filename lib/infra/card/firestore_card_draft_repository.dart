@@ -35,13 +35,22 @@ class FirestoreCardDraftRepository implements CardDraftRepository {
         .document(uid)
         .get();
 
-    return CardDraft.fromJson(reference.data);
+    return CardDraft.fromJson(reference.data)
+        .rebuild((b) => b.uid = reference.documentID);
   }
 
   @override
-  Future<List<CardDraft>> find() {
-    // TODO: implement find
-    return null;
+  Future<List<CardDraft>> find() async {
+    final reference = await instance
+        .collection("users")
+        .document("dummyId")
+        .collection("drafts")
+        .getDocuments()
+        .then((value) => value.documents
+            .map((document) => CardDraft.fromJson(document.data)
+                .rebuild((b) => b.uid = document.documentID))
+            .toList());
+    return reference;
   }
 
   @override
