@@ -19,9 +19,7 @@ class CardDraftModel extends ChangeNotifier {
   CardDraftModelState status = CardDraftModelState();
 
   void fetch(String uid) async {
-    final draft = uid == null
-        ? await createUseCase.invoke(Object)
-        : await getUseCase.invoke(uid);
+    final draft = await getUseCase.invoke(uid);
     status = status.copy(draft: draft);
     notifyListeners();
   }

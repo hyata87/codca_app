@@ -1,36 +1,42 @@
+import 'dart:io';
+
 import 'package:built_collection/built_collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:codca/domain/auth/auth_state.dart';
 import 'package:codca/domain/card/card_draft.dart';
 import 'package:codca/domain/card/card_draft_repository.dart';
 import 'package:codca/domain/card/share_link.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class FirestoreCardDraftRepository implements CardDraftRepository {
-  final Firestore instance;
+  final Firestore _firestore;
+  final FirebaseStorage _storage;
 
-  FirestoreCardDraftRepository(this.instance);
+  FirestoreCardDraftRepository({Firestore firestore, FirebaseStorage storage})
+      : this._firestore = firestore,
+        this._storage = storage;
 
   @override
-  Future<CardDraft> create() async {
+  Future<CardDraft> create(AuthInfo info, File imageFile) async {
     CardDraft draft = CardDraft((b) {
       b.shareLinks = SetBuilder([ShareLink.profile]);
       b.createdAt = DateTime.now().toUtc();
       b.updatedAt = DateTime.now().toUtc();
     });
 
-    final reference = await instance
-        .collection("users")
-        .document("dummyId")
-        .collection("drafts")
-        .add(draft.toJson());
+    final reference =
+        _firestore.collection("users").document(info.uid).collection("drafts");
 
-    return draft.rebuild((b) => b.uid = reference.documentID);
+    final document = await reference.add(draft.toJson());
+
+    return draft.rebuild((b) => b.uid = document.documentID);
   }
 
   @override
-  Future<CardDraft> fetch(String uid) async {
-    final reference = await instance
+  Future<CardDraft> fetch(AuthInfo info, String uid) async {
+    final reference = await _firestore
         .collection("users")
-        .document("dummyId")
+        .document(info.uid)
         .collection("drafts")
         .document(uid)
         .get();
@@ -40,10 +46,10 @@ class FirestoreCardDraftRepository implements CardDraftRepository {
   }
 
   @override
-  Future<List<CardDraft>> find() async {
-    final reference = await instance
+  Future<List<CardDraft>> find(AuthInfo info) async {
+    final reference = await _firestore
         .collection("users")
-        .document("dummyId")
+        .document(info.uid)
         .collection("drafts")
         .getDocuments()
         .then((value) => value.documents
@@ -54,14 +60,15 @@ class FirestoreCardDraftRepository implements CardDraftRepository {
   }
 
   @override
-  Future<void> publish(CardDraft draft) {
-    // TODO: implement publish
-    return null;
-  }
+  Future<void> save(AuthInfo info, CardDraft draft) async {
+    final document = _firestore
+        .collection("users")
+        .document(info.uid)
+        .collection("drafts")
+        .document(draft.uid);
 
-  @override
-  Future<void> save(CardDraft draft) {
-    // TODO: implement save
-    return null;
+    return document.setData(
+      draft.rebuild((b) => b.updatedAt = DateTime.now().toUtc()).toJson(),
+    );
   }
 }

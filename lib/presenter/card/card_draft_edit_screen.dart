@@ -1,12 +1,25 @@
-import 'package:codca/domain/card/card_draft_repository.dart';
-import 'package:codca/domain/card/create_card_draft_usecase.dart';
-import 'package:codca/domain/card/get_card_draft_usecase.dart';
 import 'package:codca/presenter/card/card_draft_model.dart';
 import 'package:codca/presenter/card/card_edit_link_page.dart';
 import 'package:codca/presenter/card/card_edit_photo_page.dart';
 import 'package:codca/presenter/card/card_edit_texts_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+class CardDraftEditScreens extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return null;
+  }
+}
+
+class CardDraftEditState extends State<CardDraftEditScreens> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return null;
+  }
+}
 
 class CardDraftEditScreen extends StatelessWidget {
   final String uid;
@@ -15,12 +28,10 @@ class CardDraftEditScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repository = Provider.of<CardDraftRepository>(context);
-    final createUseCase = CreateCardDraftUseCase(repository);
-    final getUseCase = GetCardDraftUseCase(repository);
     final PageController pageController = PageController(initialPage: 0);
     return ChangeNotifierProvider(
-      create: (_) => CardDraftModel(createUseCase, getUseCase)..fetch(uid),
+      create: (_) => CardDraftModel(Provider.of(context), Provider.of(context))
+        ..fetch(uid),
       child: Consumer<CardDraftModel>(
         builder: (context, model, __) => Scaffold(
           appBar: AppBar(

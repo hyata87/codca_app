@@ -9,13 +9,18 @@ part of 'home_model_state.dart';
 class _$HomeModelState extends HomeModelState {
   @override
   final List<CardDraft> drafts;
+  @override
+  final AuthState authState;
 
   factory _$HomeModelState([void Function(HomeModelStateBuilder) updates]) =>
       (new HomeModelStateBuilder()..update(updates)).build();
 
-  _$HomeModelState._({this.drafts}) : super._() {
+  _$HomeModelState._({this.drafts, this.authState}) : super._() {
     if (drafts == null) {
       throw new BuiltValueNullFieldError('HomeModelState', 'drafts');
+    }
+    if (authState == null) {
+      throw new BuiltValueNullFieldError('HomeModelState', 'authState');
     }
   }
 
@@ -30,18 +35,21 @@ class _$HomeModelState extends HomeModelState {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is HomeModelState && drafts == other.drafts;
+    return other is HomeModelState &&
+        drafts == other.drafts &&
+        authState == other.authState;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, drafts.hashCode));
+    return $jf($jc($jc(0, drafts.hashCode), authState.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('HomeModelState')
-          ..add('drafts', drafts))
+          ..add('drafts', drafts)
+          ..add('authState', authState))
         .toString();
   }
 }
@@ -54,11 +62,16 @@ class HomeModelStateBuilder
   List<CardDraft> get drafts => _$this._drafts;
   set drafts(List<CardDraft> drafts) => _$this._drafts = drafts;
 
+  AuthState _authState;
+  AuthState get authState => _$this._authState;
+  set authState(AuthState authState) => _$this._authState = authState;
+
   HomeModelStateBuilder();
 
   HomeModelStateBuilder get _$this {
     if (_$v != null) {
       _drafts = _$v.drafts;
+      _authState = _$v.authState;
       _$v = null;
     }
     return this;
@@ -79,7 +92,8 @@ class HomeModelStateBuilder
 
   @override
   _$HomeModelState build() {
-    final _$result = _$v ?? new _$HomeModelState._(drafts: drafts);
+    final _$result =
+        _$v ?? new _$HomeModelState._(drafts: drafts, authState: authState);
     replace(_$result);
     return _$result;
   }
